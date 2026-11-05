@@ -1,0 +1,22 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run Digit Grove server",
+      "type": "shell",
+      "command": "python",
+      "windows": { "command": "py" },
+      "linux": { "command": "python3" },
+      "osx": { "command": "python3" },
+      "args": ["server.py"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": false
+      },
+      "group": { "kind": "build", "isDefault": true }
+    }
+  ]
+}

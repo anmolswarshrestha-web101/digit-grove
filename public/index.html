@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Digit Grove | Number Puzzle Studio</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ===== Account access ===== -->
+<section id="auth" hidden>
+  <div class="auth-shell">
+    <aside class="auth-visual">
+      <div class="visual-top"><span class="brand-mark">DG</span><span class="eyebrow">NUMBER PUZZLE STUDIO</span></div>
+      <div class="visual-copy">
+        <span class="visual-kicker">A LITTLE LOGIC GOES A LONG WAY</span>
+        <h1>Grow your<br><em>thinking.</em></h1>
+        <p>Quick visual challenges. A sharper mind. Your own place on the leaderboard.</p>
+      </div>
+      <div class="visual-art" aria-hidden="true"><span class="orbit orbit-one"></span><span class="orbit orbit-two"></span><span class="art-tile tile-a">7</span><span class="art-tile tile-b">?</span><span class="art-tile tile-c">3</span><span class="art-spark">✳</span></div>
+      <div class="visual-foot"><span>THINK · SOLVE · IMPROVE</span><span>EST. FOR CURIOUS MINDS</span></div>
+    </aside>
+    <div class="auth-side">
+      <div class="auth-mobile-brand"><span class="brand-mark">DG</span><b>Digit Grove</b></div>
+      <div class="auth-heading"><span class="eyebrow" id="authEyebrow">YOUR PUZZLE SPACE</span><h2 id="authTitle">Welcome back</h2><p id="authIntro" class="muted">Sign in to pick up where you left off.</p></div>
+      <div class="auth-switch" role="group" aria-label="Account action">
+        <button type="button" id="modeLogin" class="mode-btn active" aria-pressed="true">Sign in</button>
+        <button type="button" id="modeRegister" class="mode-btn" aria-pressed="false">Create account</button>
+      </div>
+      <form class="auth-form" id="authForm" autocomplete="on">
+        <div class="field"><label for="username">Username</label><input id="username" autocomplete="username" maxlength="20" minlength="3" required placeholder="Your username"></div>
+        <div class="field"><div class="field-label-row"><label for="password">Password</label><span id="passwordHint">Your password</span></div><input id="password" type="password" autocomplete="current-password" required placeholder="Enter your password"><label class="check"><input type="checkbox" id="showpw"> Show password</label></div>
+        <button type="submit" id="authSubmit" class="auth-submit">Sign in <span aria-hidden="true">→</span></button>
+        <p id="authMsg" class="error" role="alert" aria-live="polite"></p>
+      </form>
+      <p class="auth-note">By continuing, you agree to use the puzzle space respectfully.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== App ===== -->
+<div id="app" hidden>
+  <header class="top">
+    <div class="wrap bar">
+      <span class="brand"><span class="brand-mark small">DG</span> Digit Grove</span>
+      <nav id="nav">
+        <button class="tab on" data-page="play">Play</button>
+        <button class="tab" data-page="board">Leaderboard</button>
+        <button class="tab" data-page="profile">Profile</button>
+      </nav>
+      <div class="acct"><span id="who"></span><button id="logout" class="ghost sm">Log out</button></div>
+    </div>
+  </header>
+  <main class="wrap">
+    <section id="page-play">
+      <div class="welcome-strip">
+        <div><span class="eyebrow">YOUR DAILY LOGIC SESSION</span><h1>Make every move count.</h1>
+        <p>Explore visual number puzzles, build a streak and see how your problem-solving improves.</p></div>
+        <div class="welcome-mark" aria-hidden="true">✳</div>
+      </div>
+      <div id="play-start" class="panel narrow">
+        <h2>Ready to play?</h2>
+        <p class="muted">Five visual number puzzles. You have 30 seconds for each one. Choose the missing digit (0 to 9).</p>
+        <ul class="rules">
+          <li><b>100</b> points for a correct answer</li>
+          <li>up to <b>+50</b> bonus points for speed</li>
+          <li><b>+10</b> for every correct answer in a row (max +40)</li>
+        </ul>
+        <button id="startGame">Start game</button>
+        <p id="playMsg" class="error"></p>
+      </div>
+
+      <div id="play-game" class="panel narrow" hidden>
+        <div class="hud">
+          <div><span class="lbl">Round</span><b id="hudRound">1 / 5</b></div>
+          <div><span class="lbl">Score</span><b id="hudScore">0</b></div>
+          <div><span class="lbl">Streak</span><b id="hudStreak">0</b></div>
+          <div><span class="lbl">Time</span><b id="hudTime">30</b></div>
+        </div>
+        <div class="timebar"><div id="timeFill"></div></div>
+        <div class="puzzle"><img id="puzzleImg" alt="Tomato puzzle"></div>
+        <p id="feedback" class="feedback">&nbsp;</p>
+        <div id="pad" class="pad"></div>
+        <p class="muted hint">Tip: you can press 0 to 9 on your keyboard.</p>
+      </div>
+
+      <div id="play-end" class="panel narrow" hidden>
+        <h2>Game over</h2>
+        <p class="muted">Here is how you did.</p>
+        <div class="stats">
+          <div><span class="lbl">Final score</span><b id="endScore">0</b></div>
+          <div><span class="lbl">Correct</span><b id="endCorrect">0</b></div>
+          <div><span class="lbl">Best streak</span><b id="endStreak">0</b></div>
+        </div>
+        <button id="playAgain">Play again</button>
+      </div>
+    </section>
+
+    <section id="page-board" hidden>
+      <div class="panel">
+        <h2>Leaderboard</h2>
+        <p class="muted">The ten best single-game scores.</p>
+        <table id="boardTable"><thead><tr><th>#</th><th>Player</th><th>Best score</th><th>Average</th><th>Games</th></tr></thead><tbody></tbody></table>
+        <p id="boardEmpty" class="muted" hidden>No finished games yet. Be the first!</p>
+      </div>
+    </section>
+
+    <section id="page-profile" hidden>
+      <div class="panel">
+        <h2 id="profName">Profile</h2>
+        <div class="cards">
+          <div><span class="lbl">Best score</span><b id="pBest">0</b></div>
+          <div><span class="lbl">Rank</span><b id="pRank">-</b></div>
+          <div><span class="lbl">Games</span><b id="pGames">0</b></div>
+          <div><span class="lbl">Accuracy</span><b id="pAcc">0%</b></div>
+          <div><span class="lbl">Avg. time (correct)</span><b id="pTime">-</b></div>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Recent games</h3>
+        <table id="recentTable"><thead><tr><th>Date</th><th>Score</th><th>Correct</th><th>Best streak</th></tr></thead><tbody></tbody></table>
+      </div>
+      <div class="panel">
+        <h3>Activity log</h3>
+        <p class="muted">Every action is published as an event on the server and stored here.</p>
+        <ul id="activity" class="log"></ul>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div id="toast" role="status"></div>
+<script src="js/bus.js"></script>
+<script src="js/api.js"></script>
+<script src="js/game.js"></script>
+<script src="js/board.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
