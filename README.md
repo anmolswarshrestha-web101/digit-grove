@@ -21,7 +21,7 @@ You can also press **Ctrl+Shift+B** in VS Code to run the included **Run Digit G
 ## Project structure
 
 - `server.py` — local HTTP server and API entry point.
-- `app/` — Python API routes, account security, database, game logic and Tomato API integration.
+- `app/` — Python API routes, account security, database, game logic and Banana API integration.
 - `public/index.html` — page structure.
 - `public/style.css` — visual design and responsive layouts.
 - `public/js/` — browser-side API client, event bus, game, leaderboard and account interface.
@@ -33,7 +33,7 @@ You can also press **Ctrl+Shift+B** in VS Code to run the included **Run Digit G
 - Account registration and login.
 - PBKDF2-HMAC-SHA256 password hashing with per-user random salts.
 - Random server-side sessions and HttpOnly cookies.
-- Visual number puzzles supplied by the Tomato API.
+- Visual number puzzles supplied by the Banana API.
 - Five rounds, 30 seconds per round, base/speed/streak scoring.
 - Server-side answer checking; puzzle solutions are not sent to the browser before submission.
 - Leaderboard, player statistics and activity log.
@@ -47,7 +47,7 @@ Open the VS Code terminal in this folder and run:
 python -m unittest discover tests -v
 ```
 
-The automated tests use a local mock puzzle service and do not require the live Tomato API.
+The automated tests use a local mock puzzle service and do not require the live Banana API.
 
 ## Troubleshooting
 

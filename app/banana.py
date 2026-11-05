@@ -1,4 +1,4 @@
-"""Interoperability: adapter for Marc Conrad's Tomato API (University of Bedfordshire).
+"""Interoperability: adapter for Marc Conrad's Banana API (University of Bedfordshire).
 
 The API answers a plain HTTPS GET with JSON:
     { "question": "https://.../picture.png", "solution": 7 }
@@ -34,11 +34,11 @@ def fetch_puzzle():
     last_error = None
     for _ in range(2):
         try:
-            request = urllib.request.Request(CONFIG['tomato_api'],
-                                             headers={'User-Agent': 'TomatoQuest/1.0', 'Accept': 'application/json'})
+            request = urllib.request.Request(CONFIG['banana_api'],
+                                             headers={'User-Agent': 'DigitGrove/1.0', 'Accept': 'application/json'})
             with urllib.request.urlopen(request, timeout=TIMEOUT) as response:      # follows redirects
                 return validate(json.loads(response.read().decode('utf-8')))
         except Exception as err:
             last_error = err
-    print('Tomato API error:', last_error)
-    raise HttpError(502, 'The Tomato API is not available right now. Please try again.')
+    print('Banana API error:', last_error)
+    raise HttpError(502, 'The Banana API is not available right now. Please try again.')

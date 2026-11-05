@@ -1,4 +1,4 @@
-"""Game engine: a game has 5 rounds. Each round is one Tomato puzzle, answered with a digit 0-9.
+"""Game engine: a game has 5 rounds. Each round is one Banana puzzle, answered with a digit 0-9.
 
 Scoring (done on the server, never in the browser):
     correct answer  = 100 base points
@@ -9,7 +9,7 @@ Scoring (done on the server, never in the browser):
 import secrets
 import time
 
-from . import tomato
+from . import banana
 from .core import HttpError, route
 from .db import db
 from .events import bus
@@ -42,7 +42,7 @@ def challenge_view(row, seconds_left=TIME_LIMIT):
 
 
 def issue_challenge(game_id, user_id, round_no):
-    image, solution = tomato.fetch_puzzle()                    # outbound call to the Tomato API
+    image, solution = banana.fetch_puzzle()                    # outbound call to the Banana API
     cid = secrets.token_urlsafe(9)                             # unpredictable id
     with db() as conn:
         conn.execute('INSERT INTO challenges(id, game_id, user_id, round, image, solution, issued_at) '

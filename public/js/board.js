@@ -27,7 +27,7 @@ async function loadBoard() {
 
 const eventNames = {
   'user.registered': 'Account created', 'user.login': 'Logged in', 'user.logout': 'Logged out',
-  'game.started': 'Game started', 'challenge.issued': 'Puzzle received from the Tomato API',
+  'game.started': 'Game started', 'challenge.issued': 'Puzzle received from the Banana API',
   'answer.submitted': 'Answer submitted', 'game.finished': 'Game finished',
 };
 

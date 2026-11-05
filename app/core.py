@@ -8,7 +8,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Settings can be overridden with environment variables (tests do this).
 CONFIG = {
     'db_path': os.environ.get('TQ_DB', os.path.join(ROOT, 'data', 'digit_grove.db')),
-    'tomato_api': os.environ.get('TOMATO_API', 'https://marcconrad.com/uob/tomato/api.php?out=json'),
+    'banana_api': os.environ.get('BANANA_API', 'https://marcconrad.com/uob/banana/api.php?out=json'),
 }
 
 ROUTES = {}          # (method, path) -> (function, needs_login)

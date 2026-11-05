@@ -59,7 +59,7 @@ async function startGame() {
   }
 }
 
-async function retryNext() {                                 // the Tomato API failed while fetching the next puzzle
+async function retryNext() {                                 // the Banana API failed while fetching the next puzzle
   const g = game.retry;
   game.retry = null;
   say('Loading the next puzzle...');

@@ -11,19 +11,19 @@ import urllib.error
 import urllib.request
 
 os.environ['TQ_QUIET'] = '1'
-from app import auth, core, db, game, tomato  # noqa: E402
+from app import auth, core, db, game, banana  # noqa: E402
 import server  # noqa: E402
 
 
-class MockTomato(http.server.BaseHTTPRequestHandler):
-    """Pretends to be the Tomato API so the tests do not need the internet."""
+class MockBanana(http.server.BaseHTTPRequestHandler):
+    """Pretends to be the Banana API so the tests do not need the internet."""
     broken = False
 
     def log_message(self, *args):
         pass
 
     def do_GET(self):
-        if MockTomato.broken:
+        if MockBanana.broken:
             self.send_response(500)
             self.end_headers()
             return
@@ -59,12 +59,12 @@ class UnitTests(unittest.TestCase):
         self.assertEqual(game.score_answer(True, 15, 3)['total'], 100 + 25 + 20)
         self.assertEqual(game.score_answer(True, 30, 99)['streak'], game.STREAK_CAP)
 
-    def test_tomato_contract(self):
-        self.assertEqual(tomato.validate({'question': 'https://x/y.png', 'solution': 4}), ('https://x/y.png', 4))
+    def test_banana_contract(self):
+        self.assertEqual(banana.validate({'question': 'https://x/y.png', 'solution': 4}), ('https://x/y.png', 4))
         for bad in [None, {}, {'question': 'ftp://x', 'solution': 1}, {'question': 'https://x', 'solution': 12},
                     {'question': 'https://x', 'solution': 'abc'}]:
             with self.assertRaises(ValueError):
-                tomato.validate(bad)
+                banana.validate(bad)
 
     def test_password_hashing(self):
         salt, digest = auth.hash_password('correct horse')
@@ -79,8 +79,8 @@ class ApiTests(unittest.TestCase):
     def setUpClass(cls):
         cls.tmp = tempfile.mkdtemp()
         core.CONFIG['db_path'] = os.path.join(cls.tmp, 'test.db')
-        cls.mock = http.server.ThreadingHTTPServer(('127.0.0.1', 0), MockTomato)
-        core.CONFIG['tomato_api'] = f'http://127.0.0.1:{cls.mock.server_address[1]}/api'
+        cls.mock = http.server.ThreadingHTTPServer(('127.0.0.1', 0), MockBanana)
+        core.CONFIG['banana_api'] = f'http://127.0.0.1:{cls.mock.server_address[1]}/api'
         cls.srv = server.create_server(0)
         for s in (cls.mock, cls.srv):
             threading.Thread(target=s.serve_forever, daemon=True).start()
@@ -92,7 +92,7 @@ class ApiTests(unittest.TestCase):
         cls.srv.shutdown()
 
     def setUp(self):
-        MockTomato.broken = False
+        MockBanana.broken = False
         self.users = getattr(ApiTests, 'counter', 0) + 1
         ApiTests.counter = self.users
 
@@ -179,9 +179,9 @@ class ApiTests(unittest.TestCase):
         self.assertTrue(prof['recent'] and prof['activity'])
         self.assertEqual(Client(self.base).call('GET', '/api/profile')[0], 401)
 
-    def test_tomato_api_down_gives_502(self):
+    def test_banana_api_down_gives_502(self):
         c = self.player()
-        MockTomato.broken = True
+        MockBanana.broken = True
         self.assertEqual(c.call('POST', '/api/game/start')[0], 502)
 
     def test_events_are_audited(self):
